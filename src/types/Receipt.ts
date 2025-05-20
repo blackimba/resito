@@ -16,4 +16,34 @@ export interface IPagination {
     itemsPerPage: number;
     totalItems: number;
     onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: number) => void;
+}
+
+export interface IReceiptQueryParams {
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+    item?: string;
+    location?: string;
+    dateFrom?: string;
+    dateTo?: string;
+}
+
+export interface IPaginatedReceipts {
+    data: IReceipt[];
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+}
+
+export interface IRecieptListProps {
+    receipts: IReceipt[];
+    onDelete: (id: string) => void;
+    onEdit: (receipt: IReceipt) => void;
+    currentPage: number;
+    itemsPerPage: number;
+    totalItems: number;
+    onPageChange: (page: number) => void;
+    onItemsPerPageChange: (itemsPerPage: number) => void;
 }

@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { IReceipt } from '../types/Receipt';
-import Pagination from '../components/Pagination';
-
-interface RecieptListProps {
-    receipts: IReceipt[];
-    onDelete: (id: string) => void;
-    onEdit: (receipt: IReceipt) => void;
-}
+import { IRecieptListProps } from '../types/Receipt';
+import Pagination from './Pagination';
 
 
-const RecieptList: React.FC<RecieptListProps> = ({ receipts, onDelete, onEdit }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentReceipts = receipts.slice(indexOfFirstItem, indexOfLastItem);
-
-    const paginate = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
-    }
-
+const RecieptList: React.FC<IRecieptListProps> = ({ 
+    receipts, 
+    onDelete, 
+    onEdit,
+    currentPage,
+    itemsPerPage,
+    totalItems,
+    onPageChange,
+    onItemsPerPageChange
+}) => {
+    
     return (
         <div>
             <table className='w-full table-auto border-collapse border border-gray-200'>
@@ -39,7 +33,7 @@ const RecieptList: React.FC<RecieptListProps> = ({ receipts, onDelete, onEdit })
                     </tr>
                 </thead>
                 <tbody>
-                    {currentReceipts.map((receipt) => (
+                    {receipts.map((receipt) => (
                         <tr key={receipt.id} className='text-center'>
                             <td className='border p-2'>{format(receipt.datePurchase, 'dd MMMM yyyy')}</td>
                             <td className='border p-2'>{receipt.item}</td>
@@ -61,8 +55,9 @@ const RecieptList: React.FC<RecieptListProps> = ({ receipts, onDelete, onEdit })
             <Pagination
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}
-                totalItems={receipts.length}
-                onPageChange={paginate}
+                totalItems={totalItems}
+                onPageChange={onPageChange}
+                onItemsPerPageChange={onItemsPerPageChange}
             />
         </div>
     )

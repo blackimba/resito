@@ -1,7 +1,7 @@
 import React from 'react';
 import { IPagination } from '../types/Receipt';
 
-const Pagination: React.FC<IPagination> = ({ currentPage, itemsPerPage, totalItems, onPageChange }) => {
+const Pagination: React.FC<IPagination> = ({ currentPage, itemsPerPage, totalItems, onPageChange, onItemsPerPageChange }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     if (totalPages === 0) return null; // Don't render pagination if there are no items
@@ -32,6 +32,16 @@ const Pagination: React.FC<IPagination> = ({ currentPage, itemsPerPage, totalIte
             >
                 Next
             </button>
+            <select
+                className='ml-4 border rounded px-2 py-1'
+                value={itemsPerPage}
+                onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+            >
+                {[5, 10, 20, 50].map(n => (
+                    <option key={n} value={n}>{n}</option>
+                ))}
+
+            </select>
         </div>
     );
 }
