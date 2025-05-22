@@ -110,7 +110,6 @@ const receiptsSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchReceipts.fulfilled, (state, action) => {
-                console.log("Fetched receipts:", action.payload.data);
 
                 state.loading = false;
                 state.receipts = action.payload.data.receipts;

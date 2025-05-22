@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const receiptSchema = yup.object().shape({
-    id: yup.string().required('ID is required'),
+    // id: yup.string().required('ID is required'),
     datePurchase: yup.date().required('Date is required'),
     item: yup.string().required('Item is required'),
     location: yup.string().required('Location is required'),

@@ -47,18 +47,15 @@ const ReceiptListPage = () => {
     // const [editingReceipt, setEditingReceipt] = useState<IReceipt | null>(null);
 
     const handleDelete = (id: string) => {
-        console.log('Delete receipt with id:', id);
         // const filteredReceipts = receipts.filter(r => r.id !== id);
         // setReceipts(filteredReceipts);
     }
 
     const handleEditReceipt = (receipt: IReceipt) => {
-        console.log('Edit receipt:', receipt);
         // setEditingReceipt(receipt);
     }
 
     const handlePageChange = (page: number) => {
-        console.log('Page changed to:', page);
         dispatch(setQueryParams({ ...queryParams, page }));
     }
 

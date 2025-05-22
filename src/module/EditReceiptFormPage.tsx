@@ -33,7 +33,7 @@ const EditReceiptFormPage = () => {
 
     return (
         <div>
-            <ReceiptForm onSave={handleSaveReceipt} editingReceipt={null} />
+            <ReceiptForm onSave={handleSaveReceipt} receipt={null} />
         </div>
     );
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router-dom'; 
+
 import { v4 as uuid } from 'uuid';
 import { useForm, Controller, useWatch, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,13 +13,14 @@ import { receiptSchema } from '../validation/receiptSchema';
 
 interface RecieptFormProps {
     onSave: (receipt: IReceipt) => void;
-    editingReceipt?: IReceipt | null;
+    onCancel?: () => void;
+    receipt?: IReceipt | null;
 }
 
 
-const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, editingReceipt }) => {
+const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, onCancel,  receipt }) => {
     const initialForm: IReceipt = {
-        id: uuid(),
+        id: '',
         datePurchase: new Date(),
         item: '',
         location: '',
@@ -27,9 +30,10 @@ const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, editingReceipt }) => 
         remark: '',
         discountAmount: 0,
     }
+    const navigate = useNavigate();
 
-    type ReceiptFormData = IReceipt
-    // type ReceiptFormData = Omit<IReceipt, 'id'>;
+    // type ReceiptFormData = IReceipt
+    type ReceiptFormData = Omit<IReceipt, 'id'>;
     const resolver: Resolver<ReceiptFormData> = yupResolver(receiptSchema);
 
     const {
@@ -50,12 +54,12 @@ const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, editingReceipt }) => 
     const discountAmount = useWatch({ control, name: 'discountAmount' });
 
     useEffect(() => {
-        if (editingReceipt) {
-            Object.keys(editingReceipt).forEach((key) => {
-                setValue(key as keyof ReceiptFormData, editingReceipt[key as keyof ReceiptFormData]);
+        if (receipt) {
+            Object.keys(receipt).forEach((key) => {
+                setValue(key as keyof ReceiptFormData, receipt[key as keyof ReceiptFormData]);
             });
         }
-    }, [editingReceipt, setValue])
+    }, [receipt, setValue])
 
     useEffect(() => {
         const calculateTotalPrice = unitPrice * quantity - discountAmount;
@@ -70,10 +74,10 @@ const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, editingReceipt }) => 
     return (
         <form onSubmit={handleSubmit(handleSubmitReceipt)} className='space-y-2'>
             <div>
-                <div>
+                {/* <div>
                     <label className='block'>Receipt ID</label>
                     <input {...register('id')} className='border rounded p-2 w-full' readOnly />
-                </div>
+                </div> */}
                 <div>
                     <label className='block'>Date Purchased</label>
                     <Controller 
@@ -124,9 +128,12 @@ const RecieptForm: React.FC<RecieptFormProps> = ({ onSave, editingReceipt }) => 
                     <input {...register('remark')} className='border rounded p-2 w-full' />
                     {errors.remark && <p className='text-red-500'>{errors.remark.message}</p>}
                 </div>
-                <div className='col-span-full'>
-                    <button type='submit' className='mt-4 w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded'>
-                        {editingReceipt ? 'Update Receipt' : 'Add Receipt'}
+                <div className='col-span-full flex gap-4 mt-4'>
+                    <button type='submit' className='w-1/2 bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded'>
+                        {receipt ? 'Update Receipt' : 'Add Receipt'}
+                    </button>
+                    <button type='button' className='w-1/2 border border-blue-600 text-blue-600 font-bold py-2 px-4 rounded' onClick={onCancel ? onCancel : () => navigate}>
+                        Cancel
                     </button>
                 </div>
             </div>
