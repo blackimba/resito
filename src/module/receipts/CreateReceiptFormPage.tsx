@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import ReceiptForm from "../components/RecieptForm";
-import { IReceipt } from "../types/Receipt";
-import { addReceipt } from "../redux/receiptSlice";
-import { AppDispatch } from "../store/store";
+import ReceiptForm from "../../components/ReceiptForm";
+import { IReceipt } from "../../types/Receipt";
+import { addReceipt } from "../../redux/receiptSlice";
+import { AppDispatch } from "../../store/store";
 import { date } from "yup";
 
 

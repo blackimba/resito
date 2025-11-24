@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import { useNavigation } from "react-router-dom";
 
-import ReceiptForm from "../components/RecieptForm";
-import { IReceipt } from "../types/Receipt";
+import ReceiptForm from "../../components/ReceiptForm";
+import { IReceipt } from "../../types/Receipt";
 
 const EditReceiptFormPage = () => {
     const navigation = useNavigation();
